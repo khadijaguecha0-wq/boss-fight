@@ -1,0 +1,342 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{array,longtable,booktabs}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{pgfgantt}
+\usepackage{float}
+\usepackage{needspace}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{accent}{HTML}{1F3A8A}
+\hypersetup{hidelinks}
+\setlist{itemsep=2pt,topsep=4pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Cahier des charges -- Boss Fight}
+\rhead{\small Mini-projet L2-CS -- AU 2026/2027}
+\cfoot{\small\thepage}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+
+% ---------- Titre ----------
+\begin{center}
+  {\large Institut Sup\'erieur Informatique -- 2\`eme ann\'ee Computer Science}\\[0.4cm]
+  {\large G\'enie logiciel -- Mini-projet, partie 1}\\[0.8cm]
+  {\Huge\bfseries\color{accent} Cahier des charges}\\[0.3cm]
+  {\LARGE Boss Fight}\\[0.2cm]
+  {\large Application web de r\'evision adaptative sous forme de combat}\\[0.8cm]
+  {\large \textbf{Auteur :} Khadija Guecha\qquad \textbf{Date :} novembre 2026}
+\end{center}
+
+\vspace{0.4cm}
+\tableofcontents
+\newpage
+
+% =====================================================
+\section{Objectif du projet}
+
+\subsection{Contexte}
+Pour r\'eviser, beaucoup d'\'etudiants se contentent de relire leurs cours. Cette r\'evision est passive, et une part importante de ce qui est appris est oubli\'ee en quelques jours, ph\'enom\`ene d\'ecrit par la courbe d'oubli d'Ebbinghaus. Les applications de quiz courantes posent les questions dans un ordre fixe ou al\'eatoire, sans tenir compte de ce que l'\'etudiant ma\^itrise d\'ej\`a ni de ce qu'il est sur le point d'oublier.
+
+\subsection{Probl\`eme trait\'e}
+Comment aider un \'etudiant \`a r\'eviser r\'eguli\`erement, de fa\c{c}on motivante, en lui proposant les bonnes questions au bon moment, selon son niveau et son risque d'oubli ?
+
+\subsection{Objectif g\'en\'eral}
+Concevoir et r\'ealiser \textbf{Boss Fight}, une application web qui transforme la r\'evision d'un chapitre en combat contre un << boss >> : chaque bonne r\'eponse blesse le boss, chaque erreur co\^ute une vie au joueur. Un module d'adaptation, fond\'e sur un mod\`ele simple de courbe d'oubli et de niveau, choisit \`a chaque tour la question la plus utile.
+
+\subsection{Objectifs sp\'ecifiques}
+\begin{itemize}
+  \item \textbf{OS-1} : permettre \`a un \'etudiant de r\'eviser un chapitre sous forme de combat (victoire ou d\'efaite) en moins de 10 minutes.
+  \item \textbf{OS-2} : estimer, pour chaque concept, le niveau de l'\'etudiant et sa probabilit\'e d'oubli, et les mettre \`a jour apr\`es chaque r\'eponse.
+  \item \textbf{OS-3} : choisir chaque question de fa\c{c}on adaptative et montrer, par simulation d'\'etudiants virtuels, que ce choix donne une meilleure r\'etention estim\'ee qu'un ordre al\'eatoire.
+  \item \textbf{OS-4} : fournir un tableau de bord de ma\^itrise par concept.
+  \item \textbf{OS-5} : appliquer les pratiques du g\'enie logiciel : sp\'ecification, mod\`eles UML, tests automatis\'es, versionnement avec Git, d\'eploiement en ligne.
+\end{itemize}
+
+\subsection{Utilisateurs vis\'es}
+\begin{itemize}
+  \item \textbf{\'Etudiant} (utilisateur principal) : r\'evise ses cours depuis un navigateur sur ordinateur ou t\'el\'ephone.
+  \item \textbf{Administrateur} (utilisateur secondaire) : alimente l'application en banques de questions.
+\end{itemize}
+
+% =====================================================
+\section{Besoins fonctionnels}
+
+\subsection{Priorisation (m\'ethode MoSCoW)}
+\begin{center}
+\small
+\begin{tabular}{L{2.6cm}L{12.6cm}}
+\toprule
+\textbf{Priorit\'e} & \textbf{Contenu}\\
+\midrule
+Must have & BF-01 \`a BF-08 et BF-10 : comptes, combat, questions adaptatives, r\'esultat, tableau de bord, import de questions\\
+Should have & BF-09 (graphique de progression) ; script de simulation (OS-3)\\
+Could have & BF-11 (modifier ou supprimer des questions) ; variantes de boss\\
+Won't have (cette version) & g\'en\'eration automatique de questions par un mod\`ele de langage, chronom\`etre, mode multijoueur, import de cours au format PDF, application mobile native\\
+\bottomrule
+\end{tabular}
+\end{center}
+Les fonctionnalit\'es << Won't have >> sont report\'ees aux perspectives du projet afin d'\'eviter le \emph{gold plating}.
+
+\subsection{Besoins de l'acteur \'Etudiant}
+{\small
+\begin{longtable}{L{1.2cm}L{5.0cm}L{6.6cm}L{1.4cm}}
+\toprule
+\textbf{ID} & \textbf{User story} & \textbf{Crit\`eres d'acceptation} & \textbf{Prio.}\\
+\midrule
+\endhead
+BF-01 & En tant qu'\'etudiant, je veux cr\'eer un compte, afin de sauvegarder ma progression. & Pseudo unique ; mot de passe d'au moins 8 caract\`eres ; message d'erreur explicite si le pseudo existe d\'ej\`a. & Must\\
+\addlinespace
+BF-02 & En tant qu'\'etudiant, je veux me connecter et me d\'econnecter, afin d'acc\'eder \`a mes donn\'ees personnelles. & Identifiants valides : acc\`es au tableau de bord ; identifiants invalides : refus avec message g\'en\'erique ; la d\'econnexion ram\`ene \`a l'\'ecran de connexion. & Must\\
+\addlinespace
+BF-03 & En tant qu'\'etudiant, je veux choisir un chapitre \`a r\'eviser, afin de cibler ma r\'evision. & La liste affiche chaque chapitre et son nombre de questions ; un chapitre sans question ne peut pas \^etre lanc\'e. & Must\\
+\addlinespace
+BF-04 & En tant qu'\'etudiant, je veux r\'epondre \`a des questions \`a choix multiples, afin de vaincre le boss. & Le boss d\'emarre \`a 100 PV et le joueur \`a 5 vies ; une bonne r\'eponse retire 10, 15 ou 20 PV selon la difficult\'e (facile, moyen, difficile) ; une mauvaise r\'eponse retire 1 vie ; PV et vies sont visibles en permanence ; le combat s'arr\^ete \`a 0 PV (victoire), 0 vie (d\'efaite) ou quand les questions sont \'epuis\'ees. & Must\\
+\addlinespace
+BF-05 & En tant qu'\'etudiant, je veux voir la correction et une explication apr\`es chaque r\'eponse, afin de comprendre mes erreurs. & La bonne r\'eponse et l'explication s'affichent avant la question suivante. & Must\\
+\addlinespace
+BF-06 & En tant qu'\'etudiant, je veux que la prochaine question soit choisie selon mon niveau et mon risque d'oubli, afin de r\'eviser efficacement. & Le concept est tir\'e au hasard avec une probabilit\'e proportionnelle \`a son risque d'oubli ; la difficult\'e de la question vise une probabilit\'e de r\'eussite estim\'ee d'environ 70\,\% ; une question n'est jamais pos\'ee deux fois dans un m\^eme combat ; niveau et stabilit\'e du concept sont mis \`a jour apr\`es chaque r\'eponse. & Must\\
+\addlinespace
+BF-07 & En tant qu'\'etudiant, je veux voir le r\'esultat du combat, afin de savoir quoi revoir. & Affichage de la victoire ou de la d\'efaite, du score (bonnes r\'eponses sur total) et de la liste des concepts dont la probabilit\'e de r\'eussite estim\'ee est inf\'erieure \`a 60\,\%. & Must\\
+\addlinespace
+BF-08 & En tant qu'\'etudiant, je veux consulter ma ma\^itrise par concept, afin de suivre mes progr\`es. & Pour chaque concept : niveau estim\'e (probabilit\'e de r\'eussir une question de difficult\'e moyenne, en \%) et date de la derni\`ere r\'evision ; un concept jamais r\'evis\'e est signal\'e << non \'evalu\'e >>. & Must\\
+\addlinespace
+BF-09 & En tant qu'\'etudiant, je veux voir l'\'evolution de ma ma\^itrise moyenne dans le temps, afin de mesurer ma progression. & Courbe de la ma\^itrise moyenne par date de combat. & Should\\
+\bottomrule
+\end{longtable}
+}
+
+\Needspace{8\baselineskip}
+\subsection{Besoins de l'acteur Administrateur}
+{\small
+\begin{longtable}{L{1.2cm}L{5.0cm}L{6.6cm}L{1.4cm}}
+\toprule
+\textbf{ID} & \textbf{User story} & \textbf{Crit\`eres d'acceptation} & \textbf{Prio.}\\
+\midrule
+\endhead
+BF-10 & En tant qu'administrateur, je veux importer une banque de questions (fichier CSV ou JSON), afin d'ajouter un chapitre. & Chaque question contient : \'enonc\'e, 4 options, une seule bonne r\'eponse, concept, difficult\'e, explication ; une ligne invalide est rejet\'ee avec un message indiquant son num\'ero, les lignes valides sont import\'ees ; le nombre de questions import\'ees et rejet\'ees est affich\'e ; seul l'administrateur acc\`ede \`a cette fonction. & Must\\
+\addlinespace
+BF-11 & En tant qu'administrateur, je veux modifier ou supprimer une question ou un chapitre, afin de corriger la banque. & La suppression demande une confirmation ; les r\'eponses d\'ej\`a enregistr\'ees par les \'etudiants sont conserv\'ees. & Could\\
+\bottomrule
+\end{longtable}
+}
+Le compte administrateur est cr\'e\'e lors de l'initialisation de l'application. Il se connecte comme tout utilisateur (BF-02).
+
+% =====================================================
+\section{Besoins non fonctionnels}
+
+Chaque exigence est mesurable et associ\'ee \`a une cat\'egorie de la norme ISO/IEC 25010 (mod\`ele FURPS+).
+
+{\small
+\begin{longtable}{L{1.3cm}L{2.6cm}L{6.7cm}L{3.6cm}}
+\toprule
+\textbf{ID} & \textbf{Cat\'egorie} & \textbf{Exigence} & \textbf{V\'erification}\\
+\midrule
+\endhead
+BNF-01 & Performance & L'affichage de la question suivante prend moins de 1 seconde pour 95\,\% des requ\^etes, avec 1000 questions en base. & Script de mesure sur 100 questions cons\'ecutives\\
+\addlinespace
+BNF-02 & S\'ecurit\'e & Les mots de passe sont stock\'es hach\'es et sal\'es, jamais en clair ; toutes les requ\^etes SQL sont param\'etr\'ees ; la page d'import est refus\'ee \`a un utilisateur non administrateur. & Revue de code et test automatis\'e d'acc\`es refus\'e\\
+\addlinespace
+BNF-03 & Usabilit\'e & Un nouvel utilisateur termine son premier combat en moins de 5 minutes sans guide ; l'interface est enti\`erement en fran\c{c}ais. & Test avec 3 camarades\\
+\addlinespace
+BNF-04 & Fiabilit\'e & Apr\`es chaque r\'eponse, le niveau et la stabilit\'e du concept sont enregistr\'es ; apr\`es un red\'emarrage de l'application en local, aucune donn\'ee de progression n'est perdue ; un fichier d'import mal form\'e est rejet\'e sans faire planter l'application. & Test de red\'emarrage et test d'import invalide\\
+\addlinespace
+BNF-05 & Maintenabilit\'e (Supportability) & Le code est organis\'e en trois couches ; aucune r\`egle de jeu ne se trouve dans les fichiers d'interface ; la couverture de tests de la couche logique est d'au moins 70\,\% ; chaque fonction publique poss\`ede une docstring. & Rapport de couverture (pytest-cov) et revue de code\\
+\addlinespace
+BNF-06 & Portabilit\'e & L'application fonctionne sur Chrome et Firefox r\'ecents et est accessible par une URL, sans installation. & Test manuel sur les deux navigateurs\\
+\addlinespace
+BNF-07 & Disponibilit\'e & La version en ligne est accessible pendant la p\'eriode d'\'evaluation du projet (h\'ebergement gratuit, sans garantie de service). & V\'erification avant la pr\'esentation\\
+\addlinespace
+BNF-08 & Exactitude du mod\`ele & La probabilit\'e de rappel d\'ecro\^it avec le temps et la stabilit\'e augmente apr\`es une bonne r\'eponse ; en simulation, la r\'etention estim\'ee d\'epasse celle d'un ordre al\'eatoire. & Tests unitaires et script de simulation\\
+\bottomrule
+\end{longtable}
+}
+
+\textbf{Contraintes (le << + >> de FURPS+) :} outils gratuits uniquement ; travail individuel ; livrables en fran\c{c}ais ; Python 3.10 ou sup\'erieur.
+
+% =====================================================
+\section{Planification du projet}
+
+\subsection{M\'ethodologie}
+Le projet suit \textbf{Scrum adapt\'e \`a un d\'eveloppeur unique}, avec des sprints de deux semaines. L'\'etudiant joue les r\^oles de Product Owner et d'\'equipe de d\'eveloppement ; l'enseignante tient le r\^ole du client lors de la validation en classe. Ce choix convient car la priorisation MoSCoW permet d'ajuster le p\'erim\`etre en cours de route, et chaque sprint livre un prototype jouable qui limite le risque. Le backlog est tenu dans GitHub Projects (tableau Kanban).
+
+\subsection{D\'ecoupage en sprints}
+\begin{center}
+\small
+\begin{tabular}{L{2.6cm}L{2.2cm}L{10.4cm}}
+\toprule
+\textbf{Sprint} & \textbf{Semaines} & \textbf{Objectif}\\
+\midrule
+Sprint 0 & 1--2 & Cahier des charges, conception UML, maquettes, prototype d\'eploy\'e\\
+Sprint 1 & 3--4 & Base de donn\'ees, banque de questions, logique du jeu, module d'adaptation\\
+Sprint 2 & 5--6 & Interfaces, tests, script de simulation\\
+Sprint 3 & 7--8 & D\'eploiement final, rapport, pr\'esentation\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\Needspace{11cm}
+\subsection{Diagramme de Gantt (2 mois)}
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{ganttchart}[
+  hgrid,
+  vgrid,
+  x unit=1.1cm,
+  y unit chart=0.7cm,
+  title height=1,
+  bar height=0.55,
+  bar label font=\small,
+  bar/.append style={fill=accent!70,draw=accent}
+]{1}{8}
+\gantttitle{Semaines}{8} \\
+\gantttitlelist{1,...,8}{1} \\
+\ganttbar{T1. Cahier des charges}{1}{1} \\
+\ganttbar{T2. Conception UML et maquettes}{1}{2} \\
+\ganttbar{T3. D\'eploiement du prototype}{2}{2} \\
+\ganttbar{T4. Base de donn\'ees et questions}{3}{3} \\
+\ganttbar{T5. Logique du jeu et adaptation}{3}{4} \\
+\ganttbar{T6. Interfaces Streamlit}{4}{5} \\
+\ganttbar{T7. Tests unitaires et d'acceptation}{5}{6} \\
+\ganttbar{T8. Script de simulation}{6}{6} \\
+\ganttbar{T9. D\'eploiement final}{6}{7} \\
+\ganttbar{T10. Rapport PDF}{7}{8} \\
+\ganttbar{T11. Pr\'esentation (10--12 diapositives)}{8}{8}
+\end{ganttchart}}
+\caption{Planification du projet sur 8 semaines}
+\end{figure}
+
+% =====================================================
+\section{Choix techniques}
+
+\begin{center}
+\small
+\begin{longtable}{L{2.3cm}L{2.6cm}L{6.1cm}L{3.4cm}}
+\toprule
+\textbf{Besoin} & \textbf{Choix} & \textbf{Justification} & \textbf{Alternative \'ecart\'ee}\\
+\midrule
+\endhead
+Langage & Python 3.12 & Lisible, d\'ej\`a connu gr\^ace \`a la formation en data science ; biblioth\`eque standard riche (\texttt{sqlite3}, \texttt{hashlib}, \texttt{math}) & Java, PHP : apprentissage plus long pour la dur\'ee du projet\\
+\addlinespace
+Interface web & Streamlit & 100\,\% Python, sans HTML, CSS ni JavaScript ; composants pr\^ets (barres de progression, graphiques, envoi de fichier) ; \'etat de session int\'egr\'e & Flask, Django : plus de code d'interface pour un gain inutile ici\\
+\addlinespace
+Base de donn\'ees & SQLite & Relationnelle, coh\'erente avec le diagramme de classes et le SQL vu en cours ; embarqu\'ee, donc aucun serveur \`a installer ; suffisante pour ce volume & PostgreSQL, MySQL : serveur \`a installer et \`a h\'eberger\\
+\addlinespace
+Mots de passe & \texttt{hashlib} (PBKDF2) avec sel al\'eatoire & Fait partie de la biblioth\`eque standard, donc aucune d\'ependance en plus & Stockage en clair (exclu)\\
+\addlinespace
+Tests & pytest, pytest-cov & Syntaxe simple, int\'egr\'e \`a VS Code, mesure de la couverture & \texttt{unittest} : plus verbeux\\
+\addlinespace
+Versionnement & Git et GitHub & Historique des commits, backlog (GitHub Projects), source du d\'eploiement & D\'epôt local seul\\
+\addlinespace
+H\'ebergement & Streamlit Community Cloud (ou \'equivalent gratuit) & Gratuit, d\'eploiement direct depuis le d\'ep\^ot GitHub & GitHub Pages : ne sert que des fichiers statiques, ne peut pas ex\'ecuter Python\\
+\addlinespace
+UML et maquettes & draw.io (diagrams.net) & Gratuit, sans compte, export en image & Enterprise Architect : payant\\
+\addlinespace
+\'Editeur et r\'edaction & VS Code ; LaTeX avec Overleaf & Outils impos\'es ou courants ; Overleaf demand\'e pour le cahier des charges & ---\\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\textbf{Risque identifi\'e.} Un h\'ebergeur gratuit peut r\'einitialiser le syst\`eme de fichiers et donc la base SQLite. Un script d'initialisation recr\'ee la base, le compte administrateur, des comptes de d\'emonstration et la banque de questions, afin que la d\'emonstration reste possible.
+
+% =====================================================
+\Needspace{12cm}
+\section{Architecture de l'application}
+
+\subsection{Vue d'ensemble}
+L'application suit une architecture en trois couches, qui s\'epare l'interface, les r\`egles m\'etier et l'acc\`es aux donn\'ees. Cette s\'eparation rend la logique testable sans interface (BNF-05).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  layer/.style={draw=accent,rounded corners,fill=accent!8,minimum width=12.5cm,align=center,inner sep=6pt,font=\small},
+  ext/.style={draw=gray!70,rounded corners,fill=gray!10,align=center,inner sep=6pt,font=\small},
+  arr/.style={-{Stealth},thick}
+]
+\node[ext,minimum width=12.5cm] (user) {Navigateur de l'utilisateur (\'etudiant ou administrateur)};
+\node[layer,below=0.8cm of user] (ui) {\textbf{Couche pr\'esentation} (Streamlit)\\Pages : connexion, tableau de bord, combat, r\'esultat, import\\\texttt{app.py}, \texttt{src/ui/}};
+\node[layer,below=0.8cm of ui] (logic) {\textbf{Couche logique m\'etier} (Python pur)\\\texttt{auth}, \texttt{battle}, \texttt{memory\_model}, \texttt{selector}, \texttt{importer}\\\texttt{src/logic/}};
+\node[layer,below=0.8cm of logic] (data) {\textbf{Couche acc\`es aux donn\'ees}\\\texttt{repository} : requ\^etes SQL param\'etr\'ees\\\texttt{src/data/}};
+\node[ext,minimum width=6cm,below=0.8cm of data] (db) {Base de donn\'ees SQLite\\\texttt{boss\_fight.db}};
+\draw[arr,<->] (user) -- node[right,font=\scriptsize]{HTTP} (ui);
+\draw[arr,->] (ui) -- node[right,font=\scriptsize]{appels de fonctions} (logic);
+\draw[arr,->] (logic) -- node[right,font=\scriptsize]{appels de fonctions} (data);
+\draw[arr,<->] (data) -- node[right,font=\scriptsize]{SQL} (db);
+\end{tikzpicture}
+\caption{Architecture en trois couches}
+\end{figure}
+
+\Needspace{6cm}
+\subsection{Composants et responsabilit\'es}
+\begin{center}
+\small
+\begin{longtable}{L{3.2cm}L{12.0cm}}
+\toprule
+\textbf{Composant} & \textbf{Responsabilit\'e}\\
+\midrule
+\endhead
+\texttt{ui} & Affiche les pages et transmet les actions de l'utilisateur \`a la couche logique ; ne contient aucune r\`egle de jeu\\
+\texttt{auth} & Cr\'ee les comptes, v\'erifie les mots de passe (hachage et sel) et g\`ere les r\^oles\\
+\texttt{battle} & Applique les r\`egles du combat : PV du boss, vies du joueur, d\'egâts selon la difficult\'e, fin de combat\\
+\texttt{memory\_model} & Calcule la probabilit\'e de rappel et met \`a jour le niveau et la stabilit\'e de chaque concept\\
+\texttt{selector} & Choisit le concept puis la question suivante\\
+\texttt{importer} & Lit un fichier CSV ou JSON, valide chaque question et rejette les lignes invalides\\
+\texttt{repository} & Seul composant qui ex\'ecute des requ\^etes SQL\\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\subsection{Module d'adaptation}
+Pour un concept $c$ et une question $q$ de difficult\'e $b_q$ ($-1$ facile, $0$ moyen, $+1$ difficile), le module utilise deux grandeurs. Soit $t_c$ le temps \'ecoul\'e en jours depuis la derni\`ere r\'evision, $S_c$ la stabilit\'e de la m\'emoire du concept et $\theta_c$ le niveau de l'\'etudiant sur ce concept :
+\[
+R_c = e^{-t_c / S_c}
+\qquad\qquad
+P(c,q) = \frac{1}{1 + e^{-(\theta_c - b_q)}}
+\]
+$R_c$ est la probabilit\'e de se souvenir du concept (courbe d'oubli) et $P(c,q)$ la probabilit\'e de r\'eussir la question (mod\`ele logistique, de type Rasch).
+
+\textbf{Choix de la question.} Le concept est tir\'e au hasard avec une probabilit\'e proportionnelle \`a $1 - R_c$. La question retenue a la difficult\'e la plus proche de $\theta_c - 0{,}85$, ce qui vise $P \approx 0{,}7$.
+
+\textbf{Mise \`a jour apr\`es une r\'eponse} ($y = 1$ si correcte, $0$ sinon) :
+\[
+\theta_c \leftarrow \theta_c + 0{,}4\,(y - P)
+\qquad
+S_c \leftarrow
+\begin{cases}
+1{,}8\,S_c & \text{si } y = 1\\
+\max(0{,}5\,S_c,\;0{,}5) & \text{si } y = 0
+\end{cases}
+\qquad
+t_c \leftarrow 0
+\]
+Valeurs initiales : $\theta_c = 0$ et $S_c = 1$ jour. Tous les param\`etres sont regroup\'es dans un fichier de configuration pour pouvoir \^etre ajust\'es.
+
+\subsection{Mod\`ele de donn\'ees (aper\c{c}u)}
+Les tables principales sont : \texttt{users}, \texttt{chapters}, \texttt{concepts}, \texttt{questions}, \texttt{answers} (historique des r\'eponses) et \texttt{mastery} (niveau $\theta$, stabilit\'e $S$ et date de derni\`ere r\'evision par utilisateur et par concept). Le diagramme de classes d\'etaill\'e sera produit \`a l'\'etape de conception.
+
+\subsection{Sc\'enario d'interaction : r\'epondre \`a une question}
+\begin{enumerate}
+  \item L'\'etudiant clique sur une option dans l'interface.
+  \item L'interface appelle \texttt{battle} avec la r\'eponse choisie.
+  \item \texttt{battle} compare avec la bonne r\'eponse et applique les d\'egâts ou la perte de vie.
+  \item \texttt{memory\_model} met \`a jour $\theta_c$, $S_c$ et la date de derni\`ere r\'evision du concept.
+  \item \texttt{repository} enregistre la r\'eponse et l'\'etat du concept dans SQLite.
+  \item \texttt{selector} choisit la question suivante ; l'interface affiche la correction, puis la suite.
+\end{enumerate}
+
+\end{document}
