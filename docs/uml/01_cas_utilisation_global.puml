@@ -1,0 +1,36 @@
+@startuml
+title Diagramme de cas d'utilisation global - Boss Fight
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Étudiant" as E
+actor "Administrateur" as A
+
+rectangle "Application Boss Fight" {
+  usecase "UC-01\nCréer un compte" as UC01
+  usecase "UC-02\nS'authentifier" as UC02
+  usecase "UC-03\nChoisir un boss" as UC03
+  usecase "UC-04\nCombattre un boss" as UC04
+  usecase "UC-05\nConsulter le tableau de bord" as UC05
+  usecase "UC-06\nVoir la progression\ndans le temps (Should)" as UC06
+  usecase "UC-07\nImporter une banque\nde questions" as UC07
+  usecase "UC-08\nModifier ou supprimer\ndes questions (Could)" as UC08
+}
+
+E -- UC01
+E -- UC02
+E -- UC03
+E -- UC04
+E -- UC05
+A -- UC02
+A -- UC07
+A -- UC08
+
+UC03 ..> UC02 : <<include>>
+UC04 ..> UC03 : <<include>>
+UC05 ..> UC02 : <<include>>
+UC07 ..> UC02 : <<include>>
+UC08 ..> UC02 : <<include>>
+UC06 ..> UC05 : <<extend>>
+@enduml

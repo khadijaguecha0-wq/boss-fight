@@ -1,0 +1,44 @@
+@startuml
+title Diagramme de séquence - Répondre à une question (UC-04)
+skinparam shadowing false
+autonumber
+
+actor "Étudiant" as E
+participant "Interface\n(Streamlit)" as UI
+participant "battle" as B
+participant "memory_model" as M
+participant "selector" as S
+participant "repository" as R
+database "SQLite" as DB
+
+E -> UI : choisit une option
+UI -> B : submit_answer(combat, question, choix)
+B -> B : comparer avec la bonne réponse
+
+alt bonne réponse
+  B -> B : retirer des PV au boss\n(10, 15 ou 20 selon la difficulté)
+else mauvaise réponse
+  B -> B : retirer 1 vie au joueur
+end
+
+B -> M : update(concept, correct)
+M --> B : niveau, stabilité et date mis à jour
+B -> R : save_answer(réponse, maîtrise)
+R -> DB : INSERT answers / UPDATE mastery
+DB --> R : OK
+R --> B : OK
+
+alt PV du boss = 0, vies = 0 ou plus de questions
+  B --> UI : combat terminé (victoire ou défaite)
+  UI --> E : affiche l'écran de résultat
+else combat en cours
+  B -> S : next_question(utilisateur, chapitre)
+  S -> R : get_mastery(utilisateur, chapitre)
+  R -> DB : SELECT mastery
+  DB --> R : maîtrises
+  R --> S : maîtrises
+  S --> B : question suivante
+  B --> UI : état du combat, correction, question suivante
+  UI --> E : correction et explication, puis nouvelle question
+end
+@enduml

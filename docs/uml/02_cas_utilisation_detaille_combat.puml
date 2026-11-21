@@ -1,0 +1,32 @@
+@startuml
+title Diagramme de cas d'utilisation détaillé - UC-04 Combattre un boss
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Étudiant" as E
+
+rectangle "Détail du combat" {
+  usecase "UC-04\nCombattre un boss" as UC04
+  usecase "UC-04.1\nSélectionner la question adaptée" as U1
+  usecase "UC-04.2\nRépondre à la question" as U2
+  usecase "UC-04.3\nAppliquer les dégâts\nou la perte de vie" as U3
+  usecase "UC-04.4\nMettre à jour la maîtrise\ndu concept" as U4
+  usecase "UC-04.5\nAfficher la correction\net l'explication" as U5
+  usecase "UC-04.6\nAfficher le résultat du combat" as U6
+  usecase "UC-04.7\nSignaler les concepts à revoir" as U7
+}
+
+E -- UC04
+E -- U2
+
+UC04 ..> U1 : <<include>>
+UC04 ..> U2 : <<include>>
+U2 ..> U3 : <<include>>
+U2 ..> U4 : <<include>>
+UC04 ..> U5 : <<include>>
+UC04 ..> U6 : <<include>>
+U7 ..> U6 : <<extend>>
+
+note right of U7 : Condition : probabilité de réussite\nestimée inférieure à 60 %
+@enduml

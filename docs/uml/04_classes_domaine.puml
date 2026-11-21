@@ -1,0 +1,83 @@
+@startuml
+title Diagramme de classes du domaine - Boss Fight
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+enum Difficulty {
+  FACILE
+  MOYEN
+  DIFFICILE
+}
+
+enum BattleStatus {
+  EN_COURS
+  VICTOIRE
+  DEFAITE
+}
+
+class User {
+  - id : int
+  - username : String
+  - passwordHash : String
+  - salt : String
+  - role : String
+  + verifyPassword(password : String) : boolean
+}
+
+class Chapter {
+  - id : int
+  - title : String
+  + questionCount() : int
+}
+
+class Concept {
+  - id : int
+  - name : String
+}
+
+class Question {
+  - id : int
+  - text : String
+  - options : List<String>
+  - correctIndex : int
+  - difficulty : Difficulty
+  - explanation : String
+  + isCorrect(choice : int) : boolean
+}
+
+class Mastery {
+  - theta : double
+  - stability : double
+  - lastReview : Date
+  + recallProbability(now : Date) : double
+  + update(correct : boolean) : void
+}
+
+class Battle {
+  - id : int
+  - bossHp : int
+  - lives : int
+  - status : BattleStatus
+  - startedAt : Date
+  + applyAnswer(question : Question, choice : int) : void
+  + isOver() : boolean
+}
+
+class Answer {
+  - id : int
+  - isCorrect : boolean
+  - answeredAt : Date
+}
+
+User "1" -- "0..*" Battle : lance >
+User "1" -- "0..*" Mastery : possède >
+Chapter "1" *-- "1..*" Concept : contient >
+Concept "1" -- "0..*" Question : regroupe >
+Concept "1" -- "0..*" Mastery : est évalué par >
+Chapter "1" -- "0..*" Battle : est combattu dans >
+Battle "1" *-- "0..*" Answer : contient >
+Answer "0..*" -- "1" Question : concerne >
+
+Question ..> Difficulty
+Battle ..> BattleStatus
+@enduml
