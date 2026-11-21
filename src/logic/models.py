@@ -1,11 +1,11 @@
-"""Objets métier de base : une question et la maîtrise d'un concept."""
+"""Objets métier de base : utilisateur, question, maîtrise d'un concept."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
 
-from src.config import DIFFICULTY_VALUE, INITIAL_STABILITY, INITIAL_THETA
+from src.config import DIFFICULTY_VALUE, INITIAL_STABILITY, INITIAL_THETA, ROLE_ADMIN
 
 
 @dataclass(frozen=True)
@@ -47,3 +47,35 @@ class Mastery:
     theta: float = INITIAL_THETA
     stability: float = INITIAL_STABILITY
     last_review: datetime | None = None
+
+
+@dataclass(frozen=True)
+class User:
+    """Un utilisateur connecté (le mot de passe haché n'est jamais conservé ici)."""
+
+    id: int
+    username: str
+    role: str
+
+    @property
+    def is_admin(self) -> bool:
+        """Vrai pour l'administrateur, seul autorisé à importer des questions (BF-10)."""
+        return self.role == ROLE_ADMIN
+
+
+@dataclass(frozen=True)
+class ChapterSummary:
+    """Un chapitre et son nombre de questions, pour l'écran de choix (BF-03)."""
+
+    id: int
+    title: str
+    question_count: int
+
+
+@dataclass(frozen=True)
+class MasteryRow:
+    """Maîtrise d'un concept pour le tableau de bord (BF-08)."""
+
+    chapter_title: str
+    concept: str
+    mastery: Mastery
