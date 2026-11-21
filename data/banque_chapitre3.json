@@ -1,0 +1,457 @@
+[
+  {
+    "concept": "Besoins fonctionnels et non fonctionnels",
+    "difficulte": "facile",
+    "enonce": "Un besoin fonctionnel (BF) décrit…",
+    "options": [
+      "comment le système doit fonctionner : sa qualité, sa performance",
+      "le budget et le calendrier prévus pour le projet",
+      "la technologie choisie pour développer le système",
+      "ce que le système doit faire, c'est-à-dire les services qu'il rend"
+    ],
+    "bonne_reponse": "D",
+    "explication": "Le BF répond à « QUOI ? » (ce que fait le système) ; le BNF répond à « COMMENT ? » (la qualité attendue). (Cours, diapos 7 et 11)"
+  },
+  {
+    "concept": "Besoins fonctionnels et non fonctionnels",
+    "difficulte": "moyen",
+    "enonce": "Parmi ces exigences, laquelle est un besoin fonctionnel ?",
+    "options": [
+      "Le temps de réponse de la recherche de cours ne doit pas dépasser 500 ms",
+      "Les mots de passe doivent être hachés avec l'algorithme Argon2id",
+      "Le système doit générer une facture PDF après validation du panier",
+      "La plateforme doit être disponible 99,9 % du temps selon le SLA"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Générer une facture est un service rendu à l'utilisateur : c'est un BF. Les trois autres décrivent une qualité (performance, sécurité, disponibilité) : ce sont des BNF. (Cours, diapos 7 et 9)"
+  },
+  {
+    "concept": "Besoins fonctionnels et non fonctionnels",
+    "difficulte": "moyen",
+    "enonce": "Qui impose en général les besoins non fonctionnels ?",
+    "options": [
+      "Les architectes, la sécurité et la DSI",
+      "Uniquement les utilisateurs métiers",
+      "Le client, au moment de la recette finale",
+      "Les testeurs, après le développement"
+    ],
+    "bonne_reponse": "A",
+    "explication": "Les BF sont exprimés par les utilisateurs métiers, alors que les BNF sont plutôt imposés par les architectes, la sécurité ou la DSI. (Cours, diapo 11)"
+  },
+  {
+    "concept": "Besoins fonctionnels et non fonctionnels",
+    "difficulte": "difficile",
+    "enonce": "En cas de perte de connexion, une application bancaire doit sauvegarder localement les saisies en cours. De quel type de besoin s'agit-il ?",
+    "options": [
+      "Un besoin fonctionnel : c'est un service métier rendu à l'utilisateur",
+      "Un besoin non fonctionnel de performance",
+      "Un besoin non fonctionnel de fiabilité (robustesse)",
+      "Un besoin non fonctionnel de sécurité"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Cette exigence garantit la continuité de service malgré les pannes réseau : c'est de la fiabilité / robustesse. (Cours, diapo 14, exercice 1)"
+  },
+  {
+    "concept": "Mesurabilité et qualité (FURPS+)",
+    "difficulte": "facile",
+    "enonce": "Dans FURPS+, que désigne la lettre P ?",
+    "options": [
+      "Performance : temps de réponse, débit, consommation mémoire",
+      "Portabilité : fonctionner sur plusieurs systèmes et appareils",
+      "Planning : respect des délais et du calendrier du projet",
+      "Priorité : ordre de réalisation des besoins par l'équipe"
+    ],
+    "bonne_reponse": "A",
+    "explication": "FURPS+ = Functionality, Usability, Reliability, Performance, Supportability, plus les contraintes. La portabilité fait partie du S (Supportability). (Cours, diapo 10)"
+  },
+  {
+    "concept": "Mesurabilité et qualité (FURPS+)",
+    "difficulte": "moyen",
+    "enonce": "Quelle formulation est une exigence non fonctionnelle mesurable ?",
+    "options": [
+      "Le tableau de bord s'affiche en moins de 1,5 s pour 95 % des requêtes, sous 500 utilisateurs",
+      "Le système doit être très rapide, même quand beaucoup d'utilisateurs s'y connectent en même temps",
+      "L'interface doit être simple et facile à utiliser, même pour un nouvel étudiant sans formation",
+      "L'application doit être très sécurisée et résister à toutes les attaques possibles"
+    ],
+    "bonne_reponse": "A",
+    "explication": "Une exigence mesurable donne un seuil chiffré et les conditions de mesure. Les termes vagues (« très », « simple », « facile ») ne sont pas testables. (Cours, diapo 12)"
+  },
+  {
+    "concept": "Mesurabilité et qualité (FURPS+)",
+    "difficulte": "moyen",
+    "enonce": "Dans FURPS+, que regroupe la lettre S (Supportability) ?",
+    "options": [
+      "Le temps de réponse, le débit et la consommation mémoire",
+      "La maintenabilité, la testabilité, la portabilité et l'extensibilité",
+      "L'ergonomie, la facilité d'apprentissage et l'expérience utilisateur",
+      "La fréquence de panne et la tolérance aux fautes"
+    ],
+    "bonne_reponse": "B",
+    "explication": "S = maintenabilité, testabilité, portabilité, extensibilité. Les autres réponses décrivent P (performance), U (usabilité) et R (fiabilité). (Cours, diapo 10)"
+  },
+  {
+    "concept": "Mesurabilité et qualité (FURPS+)",
+    "difficulte": "difficile",
+    "enonce": "Que désigne le « + » de FURPS+ ?",
+    "options": [
+      "Les besoins supplémentaires proposés par l'équipe de développement",
+      "Les contraintes de conception, d'implémentation et de licence",
+      "Les fonctionnalités de confort classées « Could have »",
+      "Les exigences de sécurité renforcée (RGPD, ISO 27001)"
+    ],
+    "bonne_reponse": "B",
+    "explication": "Le « + » regroupe les contraintes imposées au projet : conception, implémentation et licence. (Cours, diapo 10)"
+  },
+  {
+    "concept": "Besoin, exigence et spécification",
+    "difficulte": "facile",
+    "enonce": "« Je veux réserver un livre rapidement depuis mon smartphone » est un exemple de…",
+    "options": [
+      "exigence : une condition technique que le système doit satisfaire",
+      "besoin : l'expression brute de l'utilisateur",
+      "spécification : un document formel et contractuel",
+      "cas de test : une vérification de l'application"
+    ],
+    "bonne_reponse": "B",
+    "explication": "Le besoin est l'expression brute de l'utilisateur ; l'exigence la traduit en condition technique ; la spécification est le document formel de référence. (Cours, diapo 4)"
+  },
+  {
+    "concept": "Besoin, exigence et spécification",
+    "difficulte": "moyen",
+    "enonce": "« Le système doit permettre la réservation en moins de 3 clics » est un exemple de…",
+    "options": [
+      "besoin : l'expression brute du client, sans condition précise",
+      "spécification : le document contractuel complet du projet",
+      "anti-pattern : une exigence formulée de façon trop vague",
+      "exigence : une formulation technique et opérationnelle"
+    ],
+    "bonne_reponse": "D",
+    "explication": "L'exigence traduit le besoin sous forme de condition que le système doit satisfaire, ici avec un critère chiffré (3 clics). (Cours, diapo 4)"
+  },
+  {
+    "concept": "Besoin, exigence et spécification",
+    "difficulte": "moyen",
+    "enonce": "Qui détient la vision métier, exprime les besoins et valide la recette finale ?",
+    "options": [
+      "La maîtrise d'œuvre (MOE), c'est-à-dire l'équipe de développement",
+      "Les utilisateurs finaux qui manipulent le système au quotidien",
+      "La maîtrise d'ouvrage (MOA), ou Product Owner",
+      "Les parties prenantes indirectes, comme la sécurité ou le juridique"
+    ],
+    "bonne_reponse": "C",
+    "explication": "La MOA porte la vision métier et valide la recette. La MOE conçoit l'architecture, estime la faisabilité technique et développe. (Cours, diapo 5)"
+  },
+  {
+    "concept": "Besoin, exigence et spécification",
+    "difficulte": "difficile",
+    "enonce": "Le service sécurité impose le chiffrement TLS et la conformité au RGPD. Quel type de partie prenante est-ce ?",
+    "options": [
+      "Un utilisateur final, source de besoins fonctionnels métier",
+      "Une partie prenante indirecte qui impose des contraintes",
+      "La maîtrise d'œuvre, chargée de valider la recette finale",
+      "Le Product Owner, qui rédige et priorise le backlog"
+    ],
+    "bonne_reponse": "B",
+    "explication": "Sécurité, juridique, DSI et exploitation sont des parties prenantes indirectes : elles imposent des contraintes non fonctionnelles (RGPD, ISO 27001). (Cours, diapo 5)"
+  },
+  {
+    "concept": "Élicitation et anti-patterns",
+    "difficulte": "facile",
+    "enonce": "Quelle technique d'élicitation consiste à observer l'utilisateur dans son environnement réel de travail ?",
+    "options": [
+      "Les ateliers JAD, réunissant MOA, utilisateurs et équipe",
+      "Le shadowing (observation sur le terrain)",
+      "Les interviews individuelles avec les experts métiers",
+      "L'analyse de l'existant (formulaires, anciens systèmes)"
+    ],
+    "bonne_reponse": "B",
+    "explication": "Dans le shadowing, l'analyste observe l'utilisateur au travail. Les JAD sont des ateliers collectifs, le questionnaire touche un grand nombre de personnes. (Cours, diapo 17)"
+  },
+  {
+    "concept": "Élicitation et anti-patterns",
+    "difficulte": "moyen",
+    "enonce": "Dans quel ordre se déroule le processus d'ingénierie des exigences ?",
+    "options": [
+      "Élicitation, analyse et négociation, spécification, validation et accord",
+      "Spécification, élicitation, validation et accord, analyse et négociation",
+      "Analyse et négociation, élicitation, validation et accord, spécification",
+      "Élicitation, spécification, analyse et négociation, validation et accord"
+    ],
+    "bonne_reponse": "A",
+    "explication": "On recueille d'abord les besoins (élicitation), on arbitre les conflits (analyse et négociation), on formalise (spécification), puis on valide avant de coder. (Cours, diapo 18)"
+  },
+  {
+    "concept": "Élicitation et anti-patterns",
+    "difficulte": "moyen",
+    "enonce": "Comment s'appelle l'anti-pattern qui consiste à ajouter des fonctionnalités inutiles que le client n'a pas demandées ?",
+    "options": [
+      "Le gold plating",
+      "L'ambiguïté",
+      "La sur-spécification",
+      "Le prototypage"
+    ],
+    "bonne_reponse": "A",
+    "explication": "Le gold plating augmente les coûts et la complexité sans valeur ajoutée. (Cours, diapo 15)"
+  },
+  {
+    "concept": "Élicitation et anti-patterns",
+    "difficulte": "difficile",
+    "enonce": "Imposer MySQL au lieu de spécifier simplement un stockage relationnel est un exemple de…",
+    "options": [
+      "gold plating : ajouter une fonctionnalité non demandée",
+      "ambiguïté : utiliser des termes flous",
+      "élicitation : recueillir les besoins auprès des acteurs",
+      "sur-spécification : mélanger le « quoi » et le « comment »"
+    ],
+    "bonne_reponse": "D",
+    "explication": "La sur-spécification impose une solution technique prématurée au lieu de décrire le besoin. (Cours, diapo 15)"
+  },
+  {
+    "concept": "Diagrammes UML",
+    "difficulte": "facile",
+    "enonce": "Quel diagramme UML montre les acteurs et ce que le système leur permet de faire ?",
+    "options": [
+      "Le diagramme de séquence entre objets",
+      "Le diagramme de classes du domaine",
+      "Le diagramme de cas d'utilisation",
+      "Le diagramme de Gantt du planning"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Le diagramme de cas d'utilisation relie des acteurs à des objectifs métier. Le diagramme de Gantt n'est pas un diagramme UML. (Cours, diapo 20)"
+  },
+  {
+    "concept": "Diagrammes UML",
+    "difficulte": "moyen",
+    "enonce": "Quelle relation UML exprime l'inclusion obligatoire d'un cas d'utilisation dans un autre (par exemple « S'authentifier ») ?",
+    "options": [
+      "« include »",
+      "« extend »",
+      "La composition",
+      "L'héritage"
+    ],
+    "bonne_reponse": "A",
+    "explication": "« include » : le cas inclus est toujours exécuté. « extend » : l'extension est optionnelle et sous condition. (Cours, diapo 20)"
+  },
+  {
+    "concept": "Diagrammes UML",
+    "difficulte": "moyen",
+    "enonce": "Que met en évidence un diagramme de séquence ?",
+    "options": [
+      "Les cardinalités et les associations entre les entités métier",
+      "La chronologie des messages échangés entre objets ou composants",
+      "Les acteurs et leurs objectifs métier vus par l'utilisateur",
+      "La priorité de chaque besoin selon la méthode MoSCoW"
+    ],
+    "bonne_reponse": "B",
+    "explication": "Il montre l'ordre exact des échanges (appels réseau, accès à la base de données, traitements asynchrones). (Cours, diapo 22)"
+  },
+  {
+    "concept": "Diagrammes UML",
+    "difficulte": "moyen",
+    "enonce": "Quel diagramme sert de base à la création du schéma de la base de données relationnelle ?",
+    "options": [
+      "Le diagramme de séquence",
+      "Le diagramme de cas d'utilisation",
+      "Le diagramme de classes du domaine",
+      "La fiche textuelle d'un cas d'utilisation"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Le diagramme de classes précise les attributs, les associations et les cardinalités (1..*, 0..1) : c'est la base du schéma SQL. (Cours, diapo 23)"
+  },
+  {
+    "concept": "Diagrammes UML",
+    "difficulte": "difficile",
+    "enonce": "Dans « Passer commande », l'application d'un code promo est facultative et dépend d'une condition. Quelle relation la relie au cas principal ?",
+    "options": [
+      "« include »",
+      "La généralisation",
+      "L'association simple",
+      "« extend »"
+    ],
+    "bonne_reponse": "D",
+    "explication": "Une extension optionnelle sous condition se modélise avec « extend » ; c'est le cas du code promo dans la fiche du cours. (Cours, diapos 20 et 21)"
+  },
+  {
+    "concept": "User stories et INVEST",
+    "difficulte": "facile",
+    "enonce": "Quel est le format canonique d'une user story ?",
+    "options": [
+      "Le système doit [verbe] [objet] en moins de [durée]",
+      "Si [condition], alors [résultat attendu]",
+      "Acteur, scénario nominal, scénarios alternatifs",
+      "En tant que [rôle], je veux [action], afin de [bénéfice]"
+    ],
+    "bonne_reponse": "D",
+    "explication": "La user story indique qui (rôle), quoi (action) et pourquoi (bénéfice métier). (Cours, diapo 24)"
+  },
+  {
+    "concept": "User stories et INVEST",
+    "difficulte": "facile",
+    "enonce": "Dans INVEST, que signifie le « V » ?",
+    "options": [
+      "Validée : la story a été approuvée par la maîtrise d'œuvre",
+      "Valeur : la story apporte une valeur mesurable au client",
+      "Versionnée : la story est suivie dans un dépôt Git",
+      "Vérifiée : la story a déjà été testée par l'équipe"
+    ],
+    "bonne_reponse": "B",
+    "explication": "INVEST = Indépendante, Négociable, Valeur, Estimable, Small (petite), Testable. (Cours, diapo 24)"
+  },
+  {
+    "concept": "User stories et INVEST",
+    "difficulte": "moyen",
+    "enonce": "Dans INVEST, que signifie le « T » ?",
+    "options": [
+      "Traçable : elle possède un identifiant unique (REQ-ID)",
+      "Technique : elle est rédigée en langage technique",
+      "Testable : la story possède des critères d'acceptation clairs",
+      "Temporaire : elle n'est valable que pendant un sprint"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Attention : « traçable » est l'une des 5 qualités d'une exigence (diapo 33), mais le T d'INVEST est bien Testable. (Cours, diapo 24)"
+  },
+  {
+    "concept": "User stories et INVEST",
+    "difficulte": "moyen",
+    "enonce": "Que désigne la règle des 3C pour une user story ?",
+    "options": [
+      "Client, Contrat, Code",
+      "Card, Conversation, Confirmation",
+      "Contexte, Contrainte, Coût",
+      "Cahier des charges, Conception, Contrôle"
+    ],
+    "bonne_reponse": "B",
+    "explication": "Card (support synthétique), Conversation (discussion avec l'équipe), Confirmation (critères d'acceptation). (Cours, diapo 24)"
+  },
+  {
+    "concept": "User stories et INVEST",
+    "difficulte": "difficile",
+    "enonce": "Pour la story « En tant qu'étudiant emprunteur, je veux prolonger mon livre de 14 jours, afin d'éviter les pénalités de retard », lequel est un critère d'acceptation ?",
+    "options": [
+      "Éviter les pénalités de retard grâce à une prolongation rapide",
+      "La prolongation n'est possible que si le livre n'est pas réservé par un autre",
+      "Le bibliothécaire doit pouvoir suivre tous les emprunts en cours",
+      "Le site doit rester rapide et agréable à utiliser pour les étudiants"
+    ],
+    "bonne_reponse": "B",
+    "explication": "Un critère d'acceptation est une condition vérifiable. « Éviter les pénalités » est le bénéfice de la story, et les deux autres propositions sont vagues. (Cours, diapo 27)"
+  },
+  {
+    "concept": "Priorisation MoSCoW",
+    "difficulte": "facile",
+    "enonce": "En MoSCoW, que signifie « Must have » ?",
+    "options": [
+      "Essentiel, mais avec une solution de contournement temporaire",
+      "Confort, à réaliser si le temps le permet",
+      "Hors périmètre pour cette version",
+      "Vital pour le lancement : sans cela, le projet est un échec"
+    ],
+    "bonne_reponse": "D",
+    "explication": "Must have = vital. Les trois autres réponses décrivent Should have, Could have et Won't have. (Cours, diapo 25)"
+  },
+  {
+    "concept": "Priorisation MoSCoW",
+    "difficulte": "moyen",
+    "enonce": "Quelle catégorie MoSCoW correspond à une fonctionnalité essentielle pour laquelle il existe une solution de contournement temporaire ?",
+    "options": [
+      "Must have",
+      "Could have",
+      "Won't have",
+      "Should have"
+    ],
+    "bonne_reponse": "D",
+    "explication": "Should have = essentiel, mais il existe un contournement temporaire. (Cours, diapo 25)"
+  },
+  {
+    "concept": "Priorisation MoSCoW",
+    "difficulte": "moyen",
+    "enonce": "En MoSCoW, que signifie « Won't have » ?",
+    "options": [
+      "Fonctionnalité définitivement abandonnée par le client",
+      "Fonctionnalité refusée par l'équipe pour une raison technique",
+      "Hors périmètre pour cette version, reporté aux itérations futures",
+      "Fonctionnalité de confort, à faire si le temps le permet"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Won't have ne veut pas dire « jamais » : la fonctionnalité est reportée à une prochaine itération. (Cours, diapo 25)"
+  },
+  {
+    "concept": "Priorisation MoSCoW",
+    "difficulte": "difficile",
+    "enonce": "Le paiement en ligne est indispensable au lancement, mais l'export PDF des factures peut se faire à la main au début. Quelle priorité MoSCoW pour l'export PDF ?",
+    "options": [
+      "Must have : sans lui, le projet est un échec",
+      "Could have : simple confort, si le temps le permet",
+      "Should have : essentiel, avec un contournement temporaire",
+      "Won't have : hors périmètre pour cette version"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Comme on peut contourner temporairement le manque en faisant l'export à la main, c'est un Should have. (Cours, diapo 25)"
+  },
+  {
+    "concept": "Cahier des charges et traçabilité",
+    "difficulte": "facile",
+    "enonce": "Que signifie RTM dans « matrice RTM » ?",
+    "options": [
+      "Requirements Traceability Matrix",
+      "Requirements Testing Methodology",
+      "Release Tracking Management",
+      "Reliability Test Matrix"
+    ],
+    "bonne_reponse": "A",
+    "explication": "La matrice RTM (Requirements Traceability Matrix) assure la traçabilité des exigences. (Cours, diapo 34)"
+  },
+  {
+    "concept": "Cahier des charges et traçabilité",
+    "difficulte": "moyen",
+    "enonce": "À quoi sert principalement la matrice RTM ?",
+    "options": [
+      "À chiffrer le coût de chaque exigence et à suivre le budget du projet",
+      "À planifier les sprints et à répartir les tâches entre les membres",
+      "À relier chaque besoin à une exigence, un cas d'utilisation et un test",
+      "À mesurer les performances du système une fois en production"
+    ],
+    "bonne_reponse": "C",
+    "explication": "Elle évite les fonctionnalités « orphelines » (codées mais non demandées) et permet l'analyse d'impact en cas de changement. (Cours, diapo 34)"
+  },
+  {
+    "concept": "Cahier des charges et traçabilité",
+    "difficulte": "moyen",
+    "enonce": "Quelle qualité d'une exigence garantit qu'elle possède un identifiant unique (REQ-ID) relié au besoin et au code ?",
+    "options": [
+      "Traçable",
+      "Univoque",
+      "Cohérente",
+      "Complète"
+    ],
+    "bonne_reponse": "A",
+    "explication": "Les 5 qualités : univoque, complète, cohérente, testable, traçable. C'est la traçabilité qui exige l'identifiant unique. (Cours, diapo 33)"
+  },
+  {
+    "concept": "Cahier des charges et traçabilité",
+    "difficulte": "difficile",
+    "enonce": "Dans la norme IEEE 830 (document SRS), quelle section détaille chaque exigence fonctionnelle, les interfaces externes et les contraintes de performance ?",
+    "options": [
+      "Section 3 : Exigences spécifiques",
+      "Section 1 : Introduction (portée, définitions, références)",
+      "Section 2 : Description globale (perspective produit, fonctions)",
+      "Les annexes (informations complémentaires)"
+    ],
+    "bonne_reponse": "A",
+    "explication": "Section 1 = introduction, section 2 = description globale, section 3 = exigences spécifiques (le détail de chaque exigence). (Cours, diapo 32)"
+  },
+  {
+    "concept": "Cahier des charges et traçabilité",
+    "difficulte": "difficile",
+    "enonce": "Le cahier des charges fonctionnel protège le prestataire contre le « scope creep ». De quoi s'agit-il ?",
+    "options": [
+      "Le retard de livraison du logiciel",
+      "L'oubli d'une exigence non fonctionnelle",
+      "La perte de traçabilité entre un besoin et son test",
+      "L'ajout continuel de demandes non prévues ni payées"
+    ],
+    "bonne_reponse": "D",
+    "explication": "Le scope creep est l'ajout continuel de demandes non payées ; le cahier des charges fixe le périmètre pour s'en protéger. (Cours, diapo 30)"
+  }
+]
