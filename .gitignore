@@ -1,5 +1,25 @@
-﻿.venv/
+# Python
 __pycache__/
-*.py[cod]
+*.pyc
 .pytest_cache/
-.env
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Base de données locale (recréée par init_db.py ou au lancement de l'application)
+*.db
+
+# Secrets : ne jamais publier
+.streamlit/secrets.toml
+
+# Fichiers d'éditeur / système
+.vscode/
+.DS_Store
+
+# LaTeX (si tu compiles en local)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
