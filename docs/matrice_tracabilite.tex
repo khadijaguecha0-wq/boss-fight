@@ -1,0 +1,49 @@
+% Généré par `python -m tools.rtm` : ne pas modifier à la main.
+% Nécessite les packages longtable, booktabs et array dans le préambule.
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{4.0cm}p{1.0cm}p{1.2cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{3.0cm}}
+\toprule
+\textbf{Exigence} & \textbf{Prio.} & \textbf{Cas d'util.} & \textbf{Modules} & \textbf{Vérification}\\
+\midrule
+\endhead
+BF-01 Cr\'eer un compte & Must & UC-01 & logic/auth.py\newline data/repository.py\newline ui/auth\_page.py & 9 tests automatis\'es\\
+\addlinespace
+BF-02 Se connecter et se d\'econnecter & Must & UC-02 & logic/auth.py\newline ui/auth\_page.py\newline ui/state.py\newline ui/sidebar.py & 12 tests automatis\'es\\
+\addlinespace
+BF-03 Choisir un chapitre & Must & UC-03 & logic/game\_service.py\newline data/repository.py\newline ui/dashboard\_page.py & 6 tests automatis\'es\\
+\addlinespace
+BF-04 R\'epondre aux questions et combattre le boss & Must & UC-04 & logic/battle.py\newline logic/game\_service.py\newline ui/battle\_page.py & 26 tests automatis\'es\\
+\addlinespace
+BF-05 Correction et explication apr\`es chaque r\'eponse & Must & UC-04 & logic/battle.py\newline ui/battle\_page.py & 6 tests automatis\'es\\
+\addlinespace
+BF-06 Questions choisies selon le niveau et le risque d'oubli & Must & UC-04 & logic/memory\_model.py\newline logic/selector.py\newline logic/game\_service.py & 25 tests automatis\'es\\
+\addlinespace
+BF-07 R\'esultat du combat et concepts \`a revoir & Must & UC-04 & logic/battle.py\newline logic/game\_service.py\newline ui/result\_page.py & 10 tests automatis\'es\\
+\addlinespace
+BF-08 Ma\^\i{}trise par concept & Must & UC-05 & logic/memory\_model.py\newline logic/game\_service.py\newline ui/dashboard\_page.py & 12 tests automatis\'es\\
+\addlinespace
+BF-09 \'Evolution de la ma\^\i{}trise dans le temps & Should & UC-06 & logic/game\_service.py\newline data/repository.py\newline ui/progress\_page.py & 5 tests automatis\'es\\
+\addlinespace
+BF-10 Importer une banque de questions & Must & UC-07 & logic/importer.py\newline logic/bootstrap.py\newline ui/import\_page.py & 28 tests automatis\'es\\
+\addlinespace
+BF-11 Modifier ou supprimer des questions & Could & UC-08 & - & Non r\'ealis\'e\\
+\addlinespace
+BNF-01 Performance & Must & - & logic/selector.py\newline data/repository.py & 1 test automatis\'e\\
+\addlinespace
+BNF-02 S\'ecurit\'e & Must & - & logic/auth.py\newline data/repository.py\newline logic/importer.py & 14 tests automatis\'es\\
+\addlinespace
+BNF-03 Usabilit\'e & Should & - & ui/ & Test manuel\\
+\addlinespace
+BNF-04 Fiabilit\'e & Must & - & data/repository.py\newline logic/importer.py\newline logic/game\_service.py & 19 tests automatis\'es\\
+\addlinespace
+BNF-05 Maintenabilit\'e & Must & - & src/ (3 couches) & 8 tests + v\'erification compl\'ementaire\\
+\addlinespace
+BNF-06 Portabilit\'e & Should & - & - & Test manuel\\
+\addlinespace
+BNF-07 Disponibilit\'e & Should & - & - & Test manuel\\
+\addlinespace
+BNF-08 Exactitude du mod\`ele d'adaptation & Must & - & logic/memory\_model.py\newline logic/selector.py & 9 tests + v\'erification compl\'ementaire\\
+\addlinespace
+\bottomrule
+\end{longtable}
+}
