@@ -7,6 +7,7 @@ l'application s'arrête en plein combat (BNF-04).
 
 from __future__ import annotations
 
+import copy
 import random
 import sqlite3
 from dataclasses import dataclass, field
@@ -138,16 +139,27 @@ def submit_answer(
 
     now = now or datetime.now()
     question = session.current
+    snapshot = copy.deepcopy(session.battle)  # pour annuler la réponse si l'enregistrement échoue
     try:
         result = session.battle.apply_answer(question, choice, now)
     except ValueError as error:
         raise GameError(str(error)) from error
 
-    repository.record_answer(conn, session.battle_id, question.id, choice, result.correct, now)
-    repository.save_mastery(conn, session.user.id, session.chapter.id, question.concept, result.new_mastery)
+    try:
+        repository.record_answer_and_mastery(
+            conn, session.battle_id, question.id, choice, result.correct,
+            session.user.id, session.chapter.id, question.concept, result.new_mastery, now,
+        )
+    except sqlite3.Error as error:
+        session.battle = snapshot  # la réponse est ignorée : le combat reste dans l'état d'avant (UC-04, 5a)
+        raise GameError("L'enregistrement a échoué : ta réponse est ignorée, tu peux réessayer.") from error
+
     session.last_result = result
     if session.battle.is_over():
-        finish_battle(conn, session, now)
+        try:
+            finish_battle(conn, session, now)
+        except sqlite3.Error:
+            pass  # la fin de combat sera enregistrée à nouveau à l'affichage du résultat
     return result
 
 

@@ -246,3 +246,32 @@ def test_init_db_can_be_run_twice(conn, sample_chapter):
     """BNF-04 : relancer la création des tables ne détruit aucune donnée."""
     repository.init_db(conn)
     assert len(repository.load_questions(conn, sample_chapter)) == 6
+
+
+def test_answer_and_mastery_are_saved_together_or_not_at_all(conn, student, sample_chapter, now):
+    """BNF-04 : si la maîtrise ne peut pas être écrite, la réponse n'est pas enregistrée non plus (transaction)."""
+    question_id = repository.load_questions(conn, sample_chapter)[0].id
+    battle_id = repository.start_battle(conn, student.id, sample_chapter, now)
+    with pytest.raises(LookupError):
+        repository.record_answer_and_mastery(
+            conn, battle_id, question_id, 0, True, student.id, sample_chapter, "Concept inexistant", Mastery(), now,
+        )
+    assert repository.list_answers(conn, battle_id) == []
+
+    repository.record_answer_and_mastery(
+        conn, battle_id, question_id, 0, True, student.id, sample_chapter, "Concept A", Mastery(0.2, 1.8, now), now,
+    )
+    assert len(repository.list_answers(conn, battle_id)) == 1
+    assert repository.load_masteries(conn, student.id, sample_chapter)["Concept A"].theta == pytest.approx(0.2)
+
+
+def test_connect_without_argument_uses_the_configured_database_path(tmp_path, monkeypatch):
+    """Configuration : sans argument, la base est celle de `config.DB_PATH` (lue à l'appel, redirigeable)."""
+    from src import config
+
+    target = tmp_path / "ailleurs.db"
+    monkeypatch.setattr(config, "DB_PATH", target)
+    connection = repository.connect()
+    repository.init_db(connection)
+    connection.close()
+    assert target.exists()

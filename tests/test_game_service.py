@@ -1,6 +1,7 @@
 """Tests du service de jeu : déroulement complet d'un combat avec la base (BF-03 à BF-09, BNF-04)."""
 
 import random
+import sqlite3
 from datetime import timedelta
 
 import pytest
@@ -238,3 +239,28 @@ def test_second_battle_continues_from_saved_mastery(conn, student, sample_chapte
 
     second = game_service.start_battle(conn, student, sample_chapter, now + timedelta(days=1), random.Random(9))
     assert second.battle.masteries == saved
+
+
+# ---------- Échec d'enregistrement (UC-04, scénario 5a) ----------
+
+def test_failed_save_ignores_the_answer_and_lets_the_student_retry(conn, student, sample_chapter, now, monkeypatch):
+    """UC-04 5a, BNF-04 : si la base refuse l'écriture, la réponse est ignorée (rien ne change) et on peut réessayer."""
+    session = game_service.start_battle(conn, student, sample_chapter, now, random.Random(1))
+    question = session.current
+
+    def broken_write(*args, **kwargs):
+        raise sqlite3.OperationalError("disque plein")
+
+    monkeypatch.setattr(repository, "record_answer_and_mastery", broken_write)
+    with pytest.raises(GameError, match="ignorée"):
+        game_service.submit_answer(conn, session, (question.correct_index + 1) % 4, now)
+
+    # le combat est exactement dans l'état d'avant la réponse
+    assert (session.battle.lives, session.battle.boss_hp, session.battle.answered_count) == (5, 100, 0)
+    assert question.id not in session.battle.asked_ids and session.battle.masteries == {}
+    assert session.last_result is None and session.current is question
+
+    monkeypatch.undo()  # la base remarche : la même question peut être répondue normalement
+    result = game_service.submit_answer(conn, session, question.correct_index, now)
+    assert result.correct and session.battle.answered_count == 1
+    assert len(repository.list_answers(conn, session.battle_id)) == 1

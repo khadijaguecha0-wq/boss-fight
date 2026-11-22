@@ -13,7 +13,7 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 
-from src.config import DB_PATH
+from src import config
 from src.logic.battle import BattleStatus
 from src.logic.models import ChapterSummary, ConceptProgress, Mastery, MasteryRow, Question, User
 
@@ -30,9 +30,12 @@ class DuplicateQuestionError(Exception):
 
 # ---------- Connexion et création des tables ----------
 
-def connect(db_path=DB_PATH) -> sqlite3.Connection:
-    """Ouvre la base (la crée si le fichier n'existe pas). `":memory:"` donne une base temporaire."""
-    conn = sqlite3.connect(str(db_path), timeout=10, check_same_thread=False)
+def connect(db_path=None) -> sqlite3.Connection:
+    """Ouvre la base (la crée si le fichier n'existe pas). `":memory:"` donne une base temporaire.
+
+    Sans argument, on utilise `config.DB_PATH`, lu au moment de l'appel (les tests peuvent le rediriger).
+    """
+    conn = sqlite3.connect(str(db_path if db_path is not None else config.DB_PATH), timeout=10, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")  # SQLite ne vérifie les clés étrangères que sur demande
     return conn
@@ -202,10 +205,10 @@ def load_masteries(conn: sqlite3.Connection, user_id: int, chapter_id: int) -> d
     }
 
 
-def save_mastery(
+def _upsert_mastery(
     conn: sqlite3.Connection, user_id: int, chapter_id: int, concept: str, mastery: Mastery
 ) -> None:
-    """Enregistre (ou met à jour) la maîtrise d'un étudiant pour un concept."""
+    """Écrit la maîtrise sans valider la transaction (à utiliser via les fonctions publiques)."""
     row = conn.execute(
         "SELECT id FROM concepts WHERE chapter_id = ? AND name = ?", (chapter_id, concept)
     ).fetchone()
@@ -222,6 +225,13 @@ def save_mastery(
         """,
         (user_id, row["id"], mastery.theta, mastery.stability, _to_text(mastery.last_review)),
     )
+
+
+def save_mastery(
+    conn: sqlite3.Connection, user_id: int, chapter_id: int, concept: str, mastery: Mastery
+) -> None:
+    """Enregistre (ou met à jour) la maîtrise d'un étudiant pour un concept."""
+    _upsert_mastery(conn, user_id, chapter_id, concept, mastery)
     conn.commit()
 
 
@@ -281,6 +291,24 @@ def start_battle(conn: sqlite3.Connection, user_id: int, chapter_id: int, now: d
     return cursor.lastrowid
 
 
+def _insert_answer(
+    conn: sqlite3.Connection,
+    battle_id: int,
+    question_id: int,
+    chosen_index: int,
+    is_correct: bool,
+    now: datetime,
+) -> None:
+    """Écrit la réponse sans valider la transaction (à utiliser via les fonctions publiques)."""
+    conn.execute(
+        """
+        INSERT INTO answers (battle_id, question_id, chosen_index, is_correct, answered_at)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (battle_id, question_id, chosen_index, int(is_correct), _to_text(now)),
+    )
+
+
 def record_answer(
     conn: sqlite3.Connection,
     battle_id: int,
@@ -290,13 +318,29 @@ def record_answer(
     now: datetime,
 ) -> None:
     """Enregistre une réponse donnée pendant un combat."""
-    conn.execute(
-        """
-        INSERT INTO answers (battle_id, question_id, chosen_index, is_correct, answered_at)
-        VALUES (?, ?, ?, ?, ?)
-        """,
-        (battle_id, question_id, chosen_index, int(is_correct), _to_text(now)),
-    )
+    _insert_answer(conn, battle_id, question_id, chosen_index, is_correct, now)
+    conn.commit()
+
+
+def record_answer_and_mastery(
+    conn: sqlite3.Connection,
+    battle_id: int,
+    question_id: int,
+    chosen_index: int,
+    is_correct: bool,
+    user_id: int,
+    chapter_id: int,
+    concept: str,
+    mastery: Mastery,
+    now: datetime,
+) -> None:
+    """Enregistre la réponse ET la nouvelle maîtrise en une seule transaction : tout ou rien (BNF-04)."""
+    try:
+        _insert_answer(conn, battle_id, question_id, chosen_index, is_correct, now)
+        _upsert_mastery(conn, user_id, chapter_id, concept, mastery)
+    except Exception:
+        conn.rollback()
+        raise
     conn.commit()
 
 
