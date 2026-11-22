@@ -15,7 +15,7 @@ from pathlib import Path
 
 from src.config import DB_PATH
 from src.logic.battle import BattleStatus
-from src.logic.models import ChapterSummary, Mastery, MasteryRow, Question, User
+from src.logic.models import ChapterSummary, ConceptProgress, Mastery, MasteryRow, Question, User
 
 SCHEMA_PATH = Path(__file__).with_name("schema.sql")
 
@@ -240,6 +240,31 @@ def list_mastery_rows(conn: sqlite3.Connection, user_id: int) -> list[MasteryRow
     ).fetchall()
     return [
         MasteryRow(r["title"], r["name"], Mastery(r["theta"], r["stability"], _from_text(r["last_review"])))
+        for r in rows
+    ]
+
+
+def list_concept_progress(conn: sqlite3.Connection, user_id: int) -> list[ConceptProgress]:
+    """Tous les concepts de tous les chapitres, avec la maîtrise de l'étudiant quand elle existe.
+
+    Un concept jamais travaillé est renvoyé avec `mastery=None` : l'écran l'affiche « non évalué » (BF-08).
+    """
+    rows = conn.execute(
+        """
+        SELECT c.title, k.name, m.theta, m.stability, m.last_review
+        FROM concepts k
+        JOIN chapters c ON c.id = k.chapter_id
+        LEFT JOIN mastery m ON m.concept_id = k.id AND m.user_id = ?
+        ORDER BY c.id, k.id
+        """,
+        (user_id,),
+    ).fetchall()
+    return [
+        ConceptProgress(
+            r["title"],
+            r["name"],
+            None if r["theta"] is None else Mastery(r["theta"], r["stability"], _from_text(r["last_review"])),
+        )
         for r in rows
     ]
 

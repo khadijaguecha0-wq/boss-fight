@@ -79,3 +79,12 @@ class MasteryRow:
     chapter_title: str
     concept: str
     mastery: Mastery
+
+
+@dataclass(frozen=True)
+class ConceptProgress:
+    """Un concept d'un chapitre avec la maîtrise de l'étudiant (None s'il ne l'a jamais travaillé)."""
+
+    chapter_title: str
+    concept: str
+    mastery: Mastery | None
