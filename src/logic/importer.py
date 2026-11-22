@@ -32,6 +32,14 @@ CSV_COLUMNS = (
     "bonne_reponse", "explication",
 )
 LETTERS = "ABCD"
+
+# Modèle de fichier CSV proposé en téléchargement à l'administrateur (une question d'exemple).
+CSV_TEMPLATE = (
+    ",".join(CSV_COLUMNS) + "\n"
+    "Priorisation MoSCoW,facile,Que signifie « Must have » ?,"
+    "Vital pour le lancement,Confort si le temps le permet,Hors périmètre,Solution de contournement,"
+    "A,Must have = indispensable à cette version.\n"
+)
 MAX_CONCEPT_LENGTH = 100
 MAX_TEXT_LENGTH = 1000
 
