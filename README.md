@@ -6,7 +6,7 @@ choisit les questions pour faire revoir ce qui est faible ou en train d'être ou
 
 Projet individuel du module « Outils de travail collaboratif (Génie logiciel) », L2 CS, année 2026/2027.
 
-- Application en ligne : _à compléter après le déploiement (voir `docs/deploiement.md`)_
+- Application en ligne :[ _à compléter après le déploiement (voir `docs/deploiement.md`)_](https://boss-fightgit-zzakfjj2mlx5hfw7iouckn.streamlit.app/)
 - Comptes de démonstration : `demo` / `demo-2026` (étudiant) ; le compte `admin` est protégé par un secret en ligne.
 
 ## Fonctionnalités
