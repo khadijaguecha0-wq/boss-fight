@@ -74,8 +74,8 @@ REQUIREMENTS = [
     Requirement("BNF-07", "Disponibilité", "Should", "-", (), "manuel",
                 "Vérification avant la présentation."),
     Requirement("BNF-08", "Exactitude du modèle d'adaptation", "Must", "-",
-                ("logic/memory_model.py", "logic/selector.py"), "mixte",
-                "Tests unitaires ; la simulation contre un ordre aléatoire est un livrable à part."),
+                ("logic/memory_model.py", "logic/selector.py", "tools/simulation.py"), "mixte",
+                "Tests unitaires et simulation contre un ordre aléatoire (docs/simulation_resultats.md)."),
 ]
 KNOWN_IDS = {r.ident for r in REQUIREMENTS}
 
@@ -120,6 +120,7 @@ def _status(requirement: Requirement, count: int) -> str:
 # ---------- Markdown ----------
 
 def build_markdown(by_requirement, untagged) -> str:
+    """Texte Markdown de la matrice : une ligne par exigence, puis le détail des tests."""
     total = sum(len({(t.file, t.name) for t in refs}) for refs in by_requirement.values())
     lines = [
         "# Matrice de traçabilité des exigences (RTM)",
@@ -167,6 +168,7 @@ def tex(text: str) -> str:
 
 
 def build_latex(by_requirement, untagged) -> str:
+    """Tableau LaTeX de la matrice, prêt à être inclus dans le rapport."""
     rows = []
     for r in REQUIREMENTS:
         count = len(by_requirement.get(r.ident, []))

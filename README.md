@@ -6,7 +6,7 @@ choisit les questions pour faire revoir ce qui est faible ou en train d'être ou
 
 Projet individuel du module « Outils de travail collaboratif (Génie logiciel) », L2 CS, année 2026/2027.
 
-- Application en ligne :[ _à compléter après le déploiement (voir `docs/deploiement.md`)_](https://boss-fightgit-zzakfjj2mlx5hfw7iouckn.streamlit.app/)
+- Application en ligne : https://boss-fightgit-zzakfjj2mlx5hfw7iouckn.streamlit.app/
 - Comptes de démonstration : `demo` / `demo-2026` (étudiant) ; le compte `admin` est protégé par un secret en ligne.
 
 ## Fonctionnalités
@@ -50,6 +50,7 @@ Variables d'environnement facultatives :
 pytest                                          tous les tests
 pytest --cov=src --cov-report=term-missing      avec la couverture du code
 python -m tools.rtm                             régénère la matrice de traçabilité
+python -m tools.simulation                      relance la simulation « ordre adaptatif contre ordre aléatoire »
 ```
 
 - Tests unitaires de la logique (modèle de mémoire, règles du combat, choix des questions, authentification, import).
@@ -58,6 +59,7 @@ python -m tools.rtm                             régénère la matrice de traça
 - Tests d'acceptation de l'interface (`tests/test_ui_acceptance.py`) avec `streamlit.testing.v1.AppTest` : connexion, combat, victoire, défaite, import.
 - Test de traçabilité : chaque exigence automatisable est couverte et la matrice publiée est à jour.
 - Vérifications manuelles (usabilité, navigateurs, disponibilité) : `docs/plan_de_recette.md`.
+- Simulation de 1000 élèves par scénario pour comparer l'ordre adaptatif à un ordre aléatoire (BNF-08) : `docs/simulation_resultats.md` et `docs/simulation_figure.png`.
 
 ## Architecture
 
@@ -73,7 +75,8 @@ src/
 data/                   banque de questions du chapitre 3 (CSV et JSON)
 tests/                  tests automatisés
 tools/rtm.py            génère la matrice de traçabilité à partir des tests
-docs/                   matrice de traçabilité, plan de recette, guide de déploiement
+tools/simulation.py     simulation adaptatif contre aléatoire
+docs/                   matrice de traçabilité, plan de recette, guide de déploiement, résultats de la simulation
 init_db.py              prépare la base de données
 demo_console.py         démonstration du moteur en console
 ```

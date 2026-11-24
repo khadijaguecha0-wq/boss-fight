@@ -43,7 +43,7 @@ def test_every_public_function_and_class_has_a_docstring():
     """BNF-05 : chaque fonction, classe et méthode publique possède une docstring."""
     missing = []
     files = python_files("ui") + python_files("logic") + python_files("data") + [SRC / "config.py"]
-    files += [ROOT / "app.py", ROOT / "init_db.py"]
+    files += [ROOT / "app.py", ROOT / "init_db.py", ROOT / "tools" / "rtm.py", ROOT / "tools" / "simulation.py"]
     for path in files:
         tree = ast.parse(source(path))
         for node in ast.walk(tree):

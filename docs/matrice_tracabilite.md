@@ -23,7 +23,7 @@ Un test paramétré (plusieurs cas) compte pour une seule fonction de test.
 | **BNF-05** Maintenabilité | Must | - | `src/ (3 couches)` | 8 tests + vérification complémentaire |
 | **BNF-06** Portabilité | Should | - | - | Test manuel |
 | **BNF-07** Disponibilité | Should | - | - | Test manuel |
-| **BNF-08** Exactitude du modèle d'adaptation | Must | - | `logic/memory_model.py`, `logic/selector.py` | 9 tests + vérification complémentaire |
+| **BNF-08** Exactitude du modèle d'adaptation | Must | - | `logic/memory_model.py`, `logic/selector.py`, `tools/simulation.py` | 18 tests + vérification complémentaire |
 
 Remarques :
 - **BF-11** : Hors périmètre de cette version (priorité Could).
@@ -32,9 +32,9 @@ Remarques :
 - **BNF-05** : Rapport de couverture pytest-cov à joindre au rapport.
 - **BNF-06** : Test manuel sur Chrome et Firefox, application en ligne.
 - **BNF-07** : Vérification avant la présentation.
-- **BNF-08** : Tests unitaires ; la simulation contre un ordre aléatoire est un livrable à part.
+- **BNF-08** : Tests unitaires et simulation contre un ordre aléatoire (docs/simulation_resultats.md).
 
-Tests rattachés à au moins une exigence : 190 ; tests complémentaires (robustesse, modèle de données) : 13.
+Tests rattachés à au moins une exigence : 199 ; tests complémentaires (robustesse, modèle de données) : 13.
 
 ## Détail : tests par exigence
 
@@ -269,3 +269,12 @@ _Aucun test automatisé (test manuel)._
 - `test_memory_model.py::test_wrong_answer_lowers_level_and_halves_stability`
 - `test_memory_model.py::test_stability_never_goes_below_minimum`
 - `test_memory_model.py::test_repeated_success_makes_forgetting_slower`
+- `test_simulation.py::test_simulation_uses_the_real_question_bank`
+- `test_simulation.py::test_same_seed_gives_exactly_the_same_results`
+- `test_simulation.py::test_both_orders_ask_the_same_number_of_questions_without_repeats_in_a_session`
+- `test_simulation.py::test_adaptive_order_calls_the_applications_own_selector`
+- `test_simulation.py::test_exam_score_comes_from_the_hidden_memory_and_is_chance_level_without_review`
+- `test_simulation.py::test_reviewing_raises_the_hidden_memory`
+- `test_simulation.py::test_adaptive_order_beats_random_order_in_the_main_scenario`
+- `test_simulation.py::test_conclusion_text_follows_the_numbers_not_the_other_way_round`
+- `test_simulation.py::test_report_states_its_limits_and_the_scenarios`
